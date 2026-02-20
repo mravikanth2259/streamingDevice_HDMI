@@ -1,0 +1,106 @@
+# MkDocs configuration for Streaming Device Firmware
+# Build: mkdocs build | Serve: mkdocs serve
+# Deploy to GitHub Pages: mkdocs gh-deploy
+
+site_name: Streaming Device Firmware
+site_description: Portable streaming device for TV via HDMI - Documentation
+site_url: https://mravikanth2259.github.io/streamingDevice_HDMI/
+repo_url: https://github.com/mravikanth2259/streamingDevice_HDMI
+repo_name: mravikanth2259/streamingDevice_HDMI
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.path
+    - navigation.expand
+    - navigation.index
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search:
+      lang: en
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.critic
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mravikanth2259/streamingDevice_HDMI
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Quick Start: guides/quick-start.md
+    - Build & Run: guides/build-and-run.md
+    - HDMI Setup: guides/hdmi-setup.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - System Diagram: architecture/system-diagram.md
+    - Data Flows: architecture/data-flows.md
+    - Module Map: architecture/module-map.md
+    - Module Map (Generated): architecture/module-map-generated.md
+  - API Reference:
+    - HAL Interfaces: api/hal-interfaces.md
+    - Services: api/services.md
+    - Media Types: api/media-types.md
+  - Development:
+    - Project Structure: development/project-structure.md
+    - Adding a New App: development/adding-apps.md
+    - Adding a Codec: development/adding-codecs.md
+    - Contributing: development/contributing.md
+    - Documentation Guide: development/docs-guide.md
+  - Testing:
+    - Test Strategy: testing/test-strategy.md
+    - Test Cases: testing/test-cases.md
+    - Running Tests: testing/running-tests.md
+  - Reference:
+    - Detailed Design: Detailed_Design_Document.md
+    - Implementation: Implementation_Document.md
+    - Knowledge Base: Knowledge_Base.md
+    - PRD: Product_Requirements_Document.md
+    - Codec & Container API: Codec_Container_API.md
+    - Bluetooth Protocol: Bluetooth_Control_Protocol.md
+    - Test Suite: Test_Suite_Document.md
