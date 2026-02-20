@@ -91,13 +91,33 @@ ctest --output-on-failure
 
 ## Documentation
 
+### Interactive Docs (MkDocs)
+
+Build and serve interactive documentation with search and navigation:
+
+```bash
+pip install mkdocs mkdocs-material
+mkdocs serve   # http://127.0.0.1:8000
+mkdocs build  # Output in site/
+```
+
+**Deployed**: [GitHub Pages](https://mravikanth2259.github.io/streamingDevice_HDMI/) (when enabled)
+
+### Reference Documents
+
 | Document | Description |
 |----------|-------------|
 | [Implementation_Document.md](docs/Implementation_Document.md) | Architecture, block diagrams, sequence diagrams |
 | [Test_Suite_Document.md](docs/Test_Suite_Document.md) | Happy path, rainy day, integration test cases |
 | [Knowledge_Base.md](docs/Knowledge_Base.md) | Reference for test and product teams |
+| [Product_Requirements_Document.md](docs/Product_Requirements_Document.md) | PRD with user stories |
 | [Bluetooth_Control_Protocol.md](docs/Bluetooth_Control_Protocol.md) | Mobile app GATT protocol |
 | [Codec_Container_API.md](docs/Codec_Container_API.md) | Codec/container HAL, HDR, DRM, licensing |
+
+### Auto-Generated
+
+- **Architecture diagram**: `python scripts/generate_architecture.py` – extracts modules from `src/`
+- **C++ API** (optional): `doxygen Doxyfile` – generates HTML from headers
 
 ## API Overview
 

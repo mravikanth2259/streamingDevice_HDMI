@@ -3,19 +3,18 @@
 
 namespace streaming::drivers::mock {
 
-static hal::CecOpcode remoteKeyToCec(device::RemoteKey key) {
+static hal::CecUserControlCode remoteKeyToCec(device::RemoteKey key) {
     switch (key) {
-        case device::RemoteKey::POWER: return hal::CecOpcode::IMAGE_VIEW_ON;
-        case device::RemoteKey::VOLUME_UP: return hal::CecOpcode::VOLUME_UP;
-        case device::RemoteKey::VOLUME_DOWN: return hal::CecOpcode::VOLUME_DOWN;
-        case device::RemoteKey::MUTE: return hal::CecOpcode::MUTE;
-        case device::RemoteKey::OK: return hal::CecOpcode::SELECT;
-        case device::RemoteKey::UP: return hal::CecOpcode::UP;
-        case device::RemoteKey::DOWN: return hal::CecOpcode::DOWN;
-        case device::RemoteKey::LEFT: return hal::CecOpcode::LEFT;
-        case device::RemoteKey::RIGHT: return hal::CecOpcode::RIGHT;
-        case device::RemoteKey::BACK: return hal::CecOpcode::BACK;
-        default: return hal::CecOpcode::SELECT;
+        case device::RemoteKey::VOLUME_UP: return hal::CecUserControlCode::VOLUME_UP;
+        case device::RemoteKey::VOLUME_DOWN: return hal::CecUserControlCode::VOLUME_DOWN;
+        case device::RemoteKey::MUTE: return hal::CecUserControlCode::MUTE;
+        case device::RemoteKey::OK: return hal::CecUserControlCode::SELECT;
+        case device::RemoteKey::UP: return hal::CecUserControlCode::UP;
+        case device::RemoteKey::DOWN: return hal::CecUserControlCode::DOWN;
+        case device::RemoteKey::LEFT: return hal::CecUserControlCode::LEFT;
+        case device::RemoteKey::RIGHT: return hal::CecUserControlCode::RIGHT;
+        case device::RemoteKey::BACK: return hal::CecUserControlCode::BACK;
+        default: return hal::CecUserControlCode::SELECT;
     }
 }
 
@@ -29,17 +28,17 @@ device::Result MockHdmiCecDriver::shutdown() { return device::Result::OK; }
 device::Result MockHdmiCecDriver::sendMessage(const hal::CecMessage&) { return device::Result::OK; }
 
 device::Result MockHdmiCecDriver::sendPowerOn() {
-    last_sent_ = hal::CecOpcode::IMAGE_VIEW_ON;
+    last_sent_opcode_ = hal::CecOpcode::IMAGE_VIEW_ON;
     return device::Result::OK;
 }
 
 device::Result MockHdmiCecDriver::sendStandby() {
-    last_sent_ = hal::CecOpcode::STANDBY;
+    last_sent_opcode_ = hal::CecOpcode::STANDBY;
     return device::Result::OK;
 }
 
-device::Result MockHdmiCecDriver::sendUserControl(hal::CecOpcode key) {
-    last_sent_ = key;
+device::Result MockHdmiCecDriver::sendUserControl(hal::CecUserControlCode key) {
+    last_sent_user_control_ = key;
     return device::Result::OK;
 }
 

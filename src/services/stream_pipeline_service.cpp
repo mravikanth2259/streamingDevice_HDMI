@@ -82,16 +82,21 @@ public:
     }
 
     device::Result seek(int64_t timestamp_us) override {
+        const PipelineState prev = state_;
+        if (prev != PipelineState::PLAYING && prev != PipelineState::PAUSED)
+            return device::Result::ERROR_BUSY;
+
         state_ = PipelineState::SEEKING;
         if (status_cb_) status_cb_(state_, "Seeking...");
         if (container_svc_->seek(timestamp_us) != device::Result::OK) {
-            state_ = PipelineState::ERROR;
+            state_ = prev;
             return device::Result::ERROR_IO;
         }
         if (decoder_) decoder_->flush();
-        state_ = PipelineState::PLAYING;
         current_pts_ = timestamp_us;
-        if (status_cb_) status_cb_(state_, "Playing");
+        /* Restore previous state: remain PAUSED if was paused, else PLAYING */
+        state_ = prev;
+        if (status_cb_) status_cb_(state_, prev == PipelineState::PAUSED ? "Paused" : "Playing");
         return device::Result::OK;
     }
 

@@ -6,6 +6,7 @@
 #include "config_service.hpp"
 #include "../hal/storage_hal.hpp"
 #include <sstream>
+#include <stdexcept>
 
 namespace streaming::services {
 
@@ -33,7 +34,13 @@ public:
         std::string s;
         auto r = storage_->read("config." + key, s);
         if (r != device::Result::OK) return r;
-        value = std::stoi(s);
+        try {
+            value = std::stoi(s);
+        } catch (const std::invalid_argument&) {
+            return device::Result::ERROR_INVALID_PARAM;
+        } catch (const std::out_of_range&) {
+            return device::Result::ERROR_INVALID_PARAM;
+        }
         return device::Result::OK;
     }
 

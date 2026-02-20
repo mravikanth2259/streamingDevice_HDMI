@@ -16,24 +16,28 @@
 
 namespace streaming::hal {
 
-/** CEC Opcode (subset of full CEC spec) */
+/** CEC message opcode (subset of full CEC spec) */
 enum class CecOpcode : uint8_t {
     IMAGE_VIEW_ON = 0x04,
     STANDBY = 0x36,
-    GIVE_DEVICE_POWER_STATUS = 0x8F,
-    REPORT_POWER_STATUS = 0x90,
     USER_CONTROL_PRESSED = 0x44,
     USER_CONTROL_RELEASED = 0x45,
-    VOLUME_UP = 0x41,
-    VOLUME_DOWN = 0x42,
-    MUTE = 0x43,
+    GIVE_DEVICE_POWER_STATUS = 0x8F,
+    REPORT_POWER_STATUS = 0x90,
+};
+
+/** CEC User Control code (operand for USER_CONTROL_PRESSED 0x44) */
+enum class CecUserControlCode : uint8_t {
     SELECT = 0x00,
     UP = 0x01,
     DOWN = 0x02,
     LEFT = 0x03,
     RIGHT = 0x04,
     ROOT_MENU = 0x09,
-    BACK = 0x0D
+    BACK = 0x0D,
+    VOLUME_UP = 0x41,
+    VOLUME_DOWN = 0x42,
+    MUTE = 0x43,
 };
 
 /** CEC message */
@@ -73,7 +77,7 @@ public:
     virtual device::Result sendStandby() = 0;
 
     /** Send user control (volume up/down, navigation, etc.) */
-    virtual device::Result sendUserControl(CecOpcode key) = 0;
+    virtual device::Result sendUserControl(CecUserControlCode key) = 0;
 
     /** Map RemoteKey to CEC opcode and send */
     virtual device::Result sendRemoteKey(device::RemoteKey key) = 0;
