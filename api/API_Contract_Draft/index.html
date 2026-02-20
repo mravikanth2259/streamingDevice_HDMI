@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mravikanth2259.github.io/streamingDevice_HDMI/api/media-types/">
+        <link rel="canonical" href="https://mravikanth2259.github.io/streamingDevice_HDMI/api/API_Contract_Draft/">
       
       
-        <link rel="prev" href="../services/">
+        <link rel="prev" href="../media-types/">
       
       
-        <link rel="next" href="../API_Contract_Draft/">
+        <link rel="next" href="../../development/project-structure/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Media Types - Streaming Device Firmware</title>
+        <title>API Contract Draft - Streaming Device Firmware</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#media-types" class="md-skip">
+        <a href="#api-contract-draft-idl-style-core-services" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Media Types
+              API Contract Draft
             
           </span>
         </div>
@@ -895,6 +895,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../media-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -914,7 +942,7 @@
   <span class="md-ellipsis">
     
   
-    Media Types
+    API Contract Draft
   
 
     
@@ -932,7 +960,7 @@
   <span class="md-ellipsis">
     
   
-    Media Types
+    API Contract Draft
   
 
     
@@ -958,10 +986,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#video-codecs" class="md-nav__link">
+  <a href="#iuiservice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Video Codecs
+        IUiService
       
     </span>
   </a>
@@ -969,10 +997,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#container-formats" class="md-nav__link">
+  <a href="#iapplauncherservice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Container Formats
+        IAppLauncherService
       
     </span>
   </a>
@@ -980,10 +1008,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-structs" class="md-nav__link">
+  <a href="#istreamingservice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key Structs
+        IStreamingService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ihdmicecservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IHdmiCecService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ibluetoothcontrolservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IBluetoothControlService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iconfigservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IConfigService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-types-see-typeshpp-media_typeshpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Types (see types.hpp, media_types.hpp)
       
     </span>
   </a>
@@ -994,34 +1077,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../API_Contract_Draft/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    API Contract Draft
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1776,10 +1831,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#video-codecs" class="md-nav__link">
+  <a href="#iuiservice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Video Codecs
+        IUiService
       
     </span>
   </a>
@@ -1787,10 +1842,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#container-formats" class="md-nav__link">
+  <a href="#iapplauncherservice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Container Formats
+        IAppLauncherService
       
     </span>
   </a>
@@ -1798,10 +1853,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-structs" class="md-nav__link">
+  <a href="#istreamingservice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key Structs
+        IStreamingService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ihdmicecservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IHdmiCecService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ibluetoothcontrolservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IBluetoothControlService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iconfigservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IConfigService
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-types-see-typeshpp-media_typeshpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Types (see types.hpp, media_types.hpp)
       
     </span>
   </a>
@@ -1876,99 +1986,98 @@
   
 
 
-<h1 id="media-types">Media Types<a class="headerlink" href="#media-types" title="Permanent link">&para;</a></h1>
-<p>Defined in <code>include/streaming_device/media_types.hpp</code>.</p>
-<h2 id="video-codecs">Video Codecs<a class="headerlink" href="#video-codecs" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Codec</th>
-<th>Enum</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>H.265/HEVC</td>
-<td><code>VideoCodec::H265_HEVC</code></td>
-<td>4K, HDR</td>
-</tr>
-<tr>
-<td>AV1</td>
-<td><code>VideoCodec::AV1</code></td>
-<td>Royalty-free</td>
-</tr>
-<tr>
-<td>VP9</td>
-<td><code>VideoCodec::VP9</code></td>
-<td>Web streaming</td>
-</tr>
-<tr>
-<td>MPEG-4 Part 2</td>
-<td><code>VideoCodec::MPEG4_PART2</code></td>
-<td>Legacy</td>
-</tr>
-<tr>
-<td>ProRes</td>
-<td><code>VideoCodec::PRORES</code></td>
-<td>Editing</td>
-</tr>
-</tbody>
-</table>
-<h2 id="container-formats">Container Formats<a class="headerlink" href="#container-formats" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Enum</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>MP4</td>
-<td><code>ContainerFormat::MP4</code></td>
-</tr>
-<tr>
-<td>MOV</td>
-<td><code>ContainerFormat::MOV</code></td>
-</tr>
-<tr>
-<td>MKV</td>
-<td><code>ContainerFormat::MKV</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="key-structs">Key Structs<a class="headerlink" href="#key-structs" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Struct</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>TrackMetadata</code></td>
-<td>Track type, duration, codec info</td>
-</tr>
-<tr>
-<td><code>VideoTrackInfo</code></td>
-<td>Width, height, frame rate, HDR</td>
-</tr>
-<tr>
-<td><code>EncodedPacket</code></td>
-<td>Data from demuxer</td>
-</tr>
-<tr>
-<td><code>DecodedFrame</code></td>
-<td>Output from decoder</td>
-</tr>
-<tr>
-<td><code>HdrMetadata</code></td>
-<td>Color primaries, mastering display</td>
-</tr>
-</tbody>
-</table>
+<h1 id="api-contract-draft-idl-style-core-services">API Contract Draft (IDL-Style): Core Services<a class="headerlink" href="#api-contract-draft-idl-style-core-services" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose:</strong> Minimal interface definitions for UI, App Launcher, Streaming, HDMI-CEC, Bluetooth, Config. Aligned to <a href="../../Detailed_Design_Document/">Detailed_Design_Document.md</a>.</p>
+<hr />
+<h2 id="iuiservice">IUiService<a class="headerlink" href="#iuiservice" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>interface IUiService {
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  Result render();
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  Result setAppIcons(vector&lt;string&gt; ids, vector&lt;string&gt; labels);
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  Result navigate(RemoteKey direction);  // UP, DOWN, LEFT, RIGHT
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  Result select();                      // Returns OK; triggers app launch callback
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  string getFocusedElementId();
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  Result setFocusCallback(FocusCallback cb);
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>}
+</code></pre></div>
+<hr />
+<h2 id="iapplauncherservice">IAppLauncherService<a class="headerlink" href="#iapplauncherservice" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>interface IAppLauncherService {
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  Result registerApp(AppMetadata metadata);
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  Result launch(string app_id, AppLaunchCallback cb);
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  Result stop(string session_id);
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  vector&lt;AppMetadata&gt; getApps();
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  bool isAppActive();
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  string getActiveSessionId();
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>}
+</code></pre></div>
+<hr />
+<h2 id="istreamingservice">IStreamingService<a class="headerlink" href="#istreamingservice" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>interface IStreamingService {
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  Result startSession(string app_id, string content_uri, StreamingSessionCallback cb);
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  Result pause();
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  Result resume();
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  Result seek(int64_t timestamp_us);
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  Result stopSession();
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  StreamingSessionState getState();
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  Result setStatusCallback(StatusCallback cb);
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  Result setTelemetryCallback(TelemetryCallback cb);
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>}
+</code></pre></div>
+<hr />
+<h2 id="ihdmicecservice">IHdmiCecService<a class="headerlink" href="#ihdmicecservice" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>interface IHdmiCecService {
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  Result powerOnTv();
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  Result standbyTv();
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  Result sendKeyToTv(RemoteKey key);   // VOLUME_UP, VOLUME_DOWN, MUTE, etc.
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  bool isTvPresent();
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>}
+</code></pre></div>
+<hr />
+<h2 id="ibluetoothcontrolservice">IBluetoothControlService<a class="headerlink" href="#ibluetoothcontrolservice" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>interface IBluetoothControlService {
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  Result initialize();
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  Result setCommandCallback(CommandCallback cb);   // Receives byte 0x01-0x0B
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  Result sendStatus(StatusData data);
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  bool isConnected();
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>}
+</code></pre></div>
+<hr />
+<h2 id="iconfigservice">IConfigService<a class="headerlink" href="#iconfigservice" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>interface IConfigService {
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  Result setString(string key, string value);
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  Result getString(string key, string&amp; out);
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  Result setInt(string key, int32_t value);
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  Result getInt(string key, int32_t&amp; out);
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  Result setBool(string key, bool value);
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  Result getBool(string key, bool&amp; out);
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  Result remove(string key);
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>}
+</code></pre></div>
+<hr />
+<h2 id="result">Result<a class="headerlink" href="#result" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>enum Result {
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  OK = 0,
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  ERROR_GENERIC = -1,
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  ERROR_NOT_SUPPORTED = -2,
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  ERROR_INVALID_PARAM = -3,
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  ERROR_TIMEOUT = -4,
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  ERROR_NOT_FOUND = -5,
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  ERROR_BUSY = -6,
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>  ERROR_NO_MEMORY = -7,
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>  ERROR_IO = -8,
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>  ERROR_AUTH_FAILED = -9,
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>  ERROR_NETWORK = -10
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>}
+</code></pre></div>
+<hr />
+<h2 id="data-types-see-typeshpp-media_typeshpp">Data Types (see types.hpp, media_types.hpp)<a class="headerlink" href="#data-types-see-typeshpp-media_typeshpp" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>AppMetadata</strong>: id, name, icon_path, package_uri, auth_endpoint, requires_auth</li>
+<li><strong>RemoteKey</strong>: NONE, POWER, UP, DOWN, LEFT, RIGHT, OK, BACK, VOLUME_UP, VOLUME_DOWN, MUTE, HOME, MENU</li>
+<li><strong>StreamingSessionState</strong>: IDLE, PLAYING, PAUSED, SEEKING, ERROR</li>
+</ul>
+<hr />
+<p><em>Draft version: 1.0. Formal IDL (e.g., Protobuf, Cap'n Proto) to be derived from this.</em></p>
 
 
 
