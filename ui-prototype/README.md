@@ -85,6 +85,19 @@ ui-prototype/
 - Default: 1080p (1920×1080)
 - 4K: Media query scales icons to 320px at 3840px width
 
+## Screenshots for Documentation
+
+To capture screenshots for `docs/UI_Wireframes_and_User_Journey.md`:
+
+```bash
+pip install playwright
+playwright install chromium
+python3 -m http.server 9999 &
+python3 capture_screenshots.py
+```
+
+Output: `docs/images/ui-initial-netflix-focused.png`, `ui-focus-prime-video.png`, `ui-settings-panel-open.png`
+
 ## Related
 
 - [TV_UI_Design_Spec.md](../docs/TV_UI_Design_Spec.md) – Full design specification
