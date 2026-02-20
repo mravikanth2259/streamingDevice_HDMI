@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "apps": [
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "icon_path": "/icons/netflix.png",
+      "package_uri": "https://www.netflix.com",
+      "auth_endpoint": "https://api.netflix.com/auth",
+      "requires_auth": true
+    },
+    {
+      "id": "prime",
+      "name": "Prime Video",
+      "icon_path": "/icons/prime.png",
+      "package_uri": "https://www.primevideo.com",
+      "auth_endpoint": "https://api.amazon.com/auth",
+      "requires_auth": true
+    },
+    {
+      "id": "hulu",
+      "name": "Hulu",
+      "icon_path": "/icons/hulu.png",
+      "package_uri": "https://www.hulu.com",
+      "auth_endpoint": "",
+      "requires_auth": true
+    },
+    {
+      "id": "disney",
+      "name": "Disney+",
+      "icon_path": "/icons/disney.png",
+      "package_uri": "https://www.disneyplus.com",
+      "auth_endpoint": "",
+      "requires_auth": true
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "icon_path": "/icons/youtube.png",
+      "package_uri": "https://www.youtube.com/tv",
+      "auth_endpoint": "",
+      "requires_auth": false
+    }
+  ]
+}

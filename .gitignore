@@ -1,0 +1,14 @@
+.DS_Store
+build/
+CMakeCache.txt
+CMakeFiles/
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
