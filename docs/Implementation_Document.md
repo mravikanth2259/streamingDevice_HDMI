@@ -331,3 +331,9 @@ flowchart LR
 - **New apps**: Add to `config/apps.json` and register via App Launcher
 - **New HAL**: Implement interface, add to factory
 - **New platform**: Add platform driver, select via CMake option
+
+---
+
+## 5. Related Documents
+
+- **[Detailed_Design_Document.md](Detailed_Design_Document.md)** – Comprehensive design (system context, HAL details, security, compliance, risks)

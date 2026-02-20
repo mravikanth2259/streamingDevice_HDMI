@@ -107,6 +107,7 @@ mkdocs build  # Output in site/
 
 | Document | Description |
 |----------|-------------|
+| [Detailed_Design_Document.md](docs/Detailed_Design_Document.md) | Full design: system context, HAL, security, compliance |
 | [Implementation_Document.md](docs/Implementation_Document.md) | Architecture, block diagrams, sequence diagrams |
 | [Test_Suite_Document.md](docs/Test_Suite_Document.md) | Happy path, rainy day, integration test cases |
 | [Knowledge_Base.md](docs/Knowledge_Base.md) | Reference for test and product teams |

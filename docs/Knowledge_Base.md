@@ -325,6 +325,7 @@ make test
 
 | Document | Contents |
 |----------|----------|
+| **Detailed_Design_Document.md** | Full design: system context, HAL details, security, compliance, risks |
 | **Implementation_Document.md** | Full architecture, interface diagrams, HDMI setup, media pipeline |
 | **Test_Suite_Document.md** | Test cases, test architecture, execution |
 | **Codec_Container_API.md** | Codec and container API reference |
