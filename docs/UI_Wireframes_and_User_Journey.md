@@ -4,7 +4,7 @@
 **Date:** February 2025  
 **Product:** Portable HDMI Streaming Device – TV Launcher UI
 
-Screenshots below are captured from the live [HTML5 UI prototype](../ui-prototype/) at 1920×1080.
+Screenshots below are captured from the live [HTML5 UI prototype](https://github.com/mravikanth2259/streamingDevice_HDMI/tree/main/ui-prototype) at 1920×1080.
 
 ---
 
@@ -402,5 +402,5 @@ Screenshots are saved to `docs/images/`.
 | Document | Description |
 |----------|-------------|
 | [TV_UI_Design_Spec.md](TV_UI_Design_Spec.md) | Color palette, typography, layout specs |
-| [ui-prototype/](../ui-prototype/README.md) | Interactive HTML5 prototype |
+| [ui-prototype/](https://github.com/mravikanth2259/streamingDevice_HDMI/blob/main/ui-prototype/README.md) | Interactive HTML5 prototype |
 | [Product_Requirements_Document.md](Product_Requirements_Document.md) | User stories and requirements |

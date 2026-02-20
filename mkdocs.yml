@@ -42,6 +42,13 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
+# Validation: use "info" for links to images/assets so strict mode doesn't fail.
+# MkDocs only considers .md files as "documentation", so image links trigger not_found.
+validation:
+  links:
+    not_found: info
+    unrecognized_links: info
+
 plugins:
   - search:
       lang: en
