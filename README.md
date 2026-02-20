@@ -114,6 +114,19 @@ mkdocs build  # Output in site/
 | [Product_Requirements_Document.md](docs/Product_Requirements_Document.md) | PRD with user stories |
 | [Bluetooth_Control_Protocol.md](docs/Bluetooth_Control_Protocol.md) | Mobile app GATT protocol |
 | [Codec_Container_API.md](docs/Codec_Container_API.md) | Codec/container HAL, HDR, DRM, licensing |
+| [TV_UI_Design_Spec.md](docs/TV_UI_Design_Spec.md) | TV launcher UI: river scroll, icons, settings |
+| [UI_Wireframes_and_User_Journey.md](docs/UI_Wireframes_and_User_Journey.md) | UI wireframes and detailed user journey steps |
+
+### UI Prototype (HTML5)
+
+Run the interactive UI prototype:
+
+```bash
+cd ui-prototype && python3 -m http.server 8080
+# Open http://localhost:8080
+```
+
+See [ui-prototype/README.md](ui-prototype/README.md).
 
 ### Auto-Generated
 

@@ -14,6 +14,8 @@ streamingDevice_HDMI/
 │   ├── common/                 # Event bus, logger
 │   └── main.cpp
 ├── config/                     # Configuration files
+│   ├── apps.json               # App registry
+│   └── ui_manifest.json        # UI icons, order, actions (TV-UI Design Spec)
 ├── tests/                      # Test sources
 ├── docs/                       # Documentation source
 ├── scripts/                    # Build/doc scripts

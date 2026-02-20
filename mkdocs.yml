@@ -97,6 +97,8 @@ nav:
     - Test Cases: testing/test-cases.md
     - Running Tests: testing/running-tests.md
   - Reference:
+    - TV-UI Design Spec: TV_UI_Design_Spec.md
+    - UI Wireframes & User Journey: UI_Wireframes_and_User_Journey.md
     - Detailed Design: Detailed_Design_Document.md
     - Implementation: Implementation_Document.md
     - Knowledge Base: Knowledge_Base.md

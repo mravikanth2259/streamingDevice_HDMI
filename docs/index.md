@@ -24,6 +24,7 @@ Portable streaming device firmware that connects to a TV via **HDMI**, streams a
 |---------|-------------|
 | [Quick Start](guides/quick-start.md) | Build and run in minutes |
 | [Detailed Design](Detailed_Design_Document.md) | Full design: context, HAL, security, compliance |
+| [TV-UI Design Spec](TV_UI_Design_Spec.md) | Launcher UI: river scroll, icons, settings |
 | [Architecture](architecture/overview.md) | System design and data flows |
 | [API Reference](api/hal-interfaces.md) | HAL interfaces and services |
 | [Testing](testing/test-strategy.md) | Test strategy and execution |
