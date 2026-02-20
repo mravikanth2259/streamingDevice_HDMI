@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "theme": {
+    "background": "#000000",
+    "focusBorder": "#FFFFFF",
+    "focusGlow": "#FFFFFF",
+    "focusGlowOpacity": 0.4
+  },
+  "layout": {
+    "iconRow": {
+      "position": "bottom",
+      "heightPercent": 30,
+      "iconSizePx": 160,
+      "iconSize4kPx": 320,
+      "gapPx": 32,
+      "cornerRadiusPx": 16
+    }
+  },
+  "icons": [
+    {
+      "id": "netflix",
+      "type": "app",
+      "label": "Netflix",
+      "iconPath": "/icons/netflix.png",
+      "action": "launch",
+      "order": 1
+    },
+    {
+      "id": "prime",
+      "type": "app",
+      "label": "Prime Video",
+      "iconPath": "/icons/prime.png",
+      "action": "launch",
+      "order": 2
+    },
+    {
+      "id": "hulu",
+      "type": "app",
+      "label": "Hulu",
+      "iconPath": "/icons/hulu.png",
+      "action": "launch",
+      "order": 3
+    },
+    {
+      "id": "disney",
+      "type": "app",
+      "label": "Disney+",
+      "iconPath": "/icons/disney.png",
+      "action": "launch",
+      "order": 4
+    },
+    {
+      "id": "youtube",
+      "type": "app",
+      "label": "YouTube",
+      "iconPath": "/icons/youtube.png",
+      "action": "launch",
+      "order": 5
+    },
+    {
+      "id": "settings",
+      "type": "system",
+      "label": "Settings",
+      "iconPath": "/icons/settings.png",
+      "action": "open_settings",
+      "order": 6
+    }
+  ],
+  "systemIcons": [
+    {
+      "id": "wifi",
+      "type": "status",
+      "label": "Wi-Fi",
+      "iconPath": "/icons/wifi.png",
+      "iconPathOffline": "/icons/wifi_off.png",
+      "tooltipKey": "wifi_status"
+    },
+    {
+      "id": "bluetooth",
+      "type": "status",
+      "label": "Bluetooth",
+      "iconPath": "/icons/bluetooth.png",
+      "iconPathOffline": "/icons/bluetooth_off.png",
+      "tooltipKey": "bluetooth_status"
+    }
+  ],
+  "settings": {
+    "items": [
+      { "id": "network", "label": "Network (Wi-Fi)" },
+      { "id": "bluetooth", "label": "Bluetooth" },
+      { "id": "display", "label": "Display" },
+      { "id": "accessibility", "label": "Accessibility" },
+      { "id": "about", "label": "About" }
+    ],
+    "accessibility": [
+      { "id": "high_contrast", "label": "High contrast", "type": "boolean" },
+      { "id": "reduce_motion", "label": "Reduce motion", "type": "boolean" }
+    ]
+  },
+  "animations": {
+    "focusTransitionMs": 150,
+    "scrollTransitionMs": 200,
+    "enterExitMs": 200
+  }
+}

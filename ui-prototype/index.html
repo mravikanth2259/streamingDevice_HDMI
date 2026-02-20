@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Streaming Device UI - Prototype</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ui-shell" id="uiShell" aria-label="Streaming UI">
+    <div class="network-status" aria-label="Network status">
+      <button class="icon status wifi" id="wifiIcon" aria-label="Wi-Fi: Connected" title="Wi-Fi: Connected">
+        <img src="assets/icons/wifi.svg" alt="" aria-hidden="true" />
+        <span class="status-badge connected" aria-hidden="true"></span>
+      </button>
+      <button class="icon status bluetooth" id="bluetoothIcon" aria-label="Bluetooth: Disconnected" title="Bluetooth: Disconnected">
+        <img src="assets/icons/bluetooth.svg" alt="" aria-hidden="true" />
+        <span class="status-badge disconnected" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <main class="icon-rail-wrapper" aria-label="App launcher">
+      <div class="icon-rail" id="iconRail" role="list"></div>
+    </main>
+
+    <div class="tooltip" id="tooltip" aria-hidden="true" role="status"></div>
+  </div>
+
+  <div class="modal" id="settingsModal" aria-hidden="true" role="dialog" aria-labelledby="settingsTitle" aria-modal="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <h2 id="settingsTitle">Settings</h2>
+      <ul class="settings-list" role="list">
+        <li><a href="#" class="settings-item">Video / Display</a></li>
+        <li><a href="#" class="settings-item">Network</a></li>
+        <li><a href="#" class="settings-item">Bluetooth</a></li>
+        <li><a href="#" class="settings-item">Accessibility</a></li>
+        <li><a href="#" class="settings-item">About</a></li>
+      </ul>
+      <button id="closeSettings" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

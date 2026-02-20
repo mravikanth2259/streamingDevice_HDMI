@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "initialFocusIndex": 0,
+  "icons": [
+    { "id": "netflix", "label": "Netflix", "asset": "assets/icons/netflix.svg", "isNetwork": false },
+    { "id": "prime", "label": "Prime Video", "asset": "assets/icons/prime_video.svg", "isNetwork": false },
+    { "id": "hulu", "label": "Hulu", "asset": "assets/icons/hulu.svg", "isNetwork": false },
+    { "id": "disney", "label": "Disney+", "asset": "assets/icons/disney_plus.svg", "isNetwork": false },
+    { "id": "youtube", "label": "YouTube", "asset": "assets/icons/youtube.svg", "isNetwork": false },
+    { "id": "settings", "label": "Settings", "asset": "assets/icons/settings.svg", "isNetwork": false, "action": "open_settings" }
+  ],
+  "networkIcons": [
+    { "id": "wifi", "label": "Wi-Fi", "asset": "assets/icons/wifi.svg", "status": "connected" },
+    { "id": "bluetooth", "label": "Bluetooth", "asset": "assets/icons/bluetooth.svg", "status": "disconnected" }
+  ],
+  "settingsPanel": true
+}
