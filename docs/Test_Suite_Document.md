@@ -9,9 +9,111 @@
 
 ---
 
-## 2. Happy Path Test Cases
+## 2. Test Architecture
 
-### 2.1 Display HAL
+### 2.1 Test Pyramid Diagram
+
+```
+                    ┌─────────────┐
+                    │ Integration │  Few, slow, full stack
+                    │   Tests     │  (I-001 to I-004)
+                    └──────┬──────┘
+                           │
+              ┌────────────┴────────────┐
+              │     Service Tests       │  Medium count
+              │  (App Launcher, UI,     │  Mock HAL
+              │   Config, Codec, etc.)  │
+              └────────────┬────────────┘
+                           │
+    ┌──────────────────────┴──────────────────────┐
+    │              HAL / Unit Tests               │  Many, fast
+    │  (Display, Input, Storage, Mock drivers)    │  Isolated
+    └────────────────────────────────────────────┘
+```
+
+### 2.2 Test Component Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         TEST RUNNER (test_runner.cpp)                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐│
+│  │ run_hal_    │  │ run_service │  │ run_cec_    │  │ run_codec_container ││
+│  │ tests()     │  │ _tests()    │  │ tests()     │  │ _tests()             ││
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬───────────────┘│
+│         │                │                │                │                 │
+│         ▼                ▼                ▼                ▼                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐│
+│  │ Display     │  │ App         │  │ HDMI-CEC    │  │ CodecService        ││
+│  │ Input       │  │ Launcher    │  │ Service     │  │ ContainerService    ││
+│  │ Storage     │  │ UI          │  │             │  │ StreamPipeline      ││
+│  │ HAL         │  │ Config      │  │             │  │                      ││
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬───────────────┘│
+│         │                │                │                │                 │
+│         └────────────────┴────────────────┴────────────────┘                 │
+│                                    │                                          │
+│                                    ▼                                          │
+│  ┌─────────────────────────────────────────────────────────────────────────┐│
+│  │                    MOCK DRIVERS (no real hardware)                       ││
+│  │  MockDisplay, MockInput, MockStorage, MockCodec, MockContainer, etc.    ││
+│  └─────────────────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2.3 Interface Test Boundary Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    WHAT GETS TESTED AT EACH BOUNDARY                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   APPLICATION                    SERVICE                     HAL             │
+│   ┌──────────┐                  ┌──────────┐              ┌──────────┐     │
+│   │ main.cpp │                  │ *Service │              │ *Hal     │     │
+│   └────┬─────┘                  └────┬─────┘              └────┬─────┘     │
+│        │                            │                          │            │
+│        │  Integration tests         │  Service tests           │  Unit     │
+│        │  (full flow)               │  (mock HAL)              │  tests    │
+│        │                            │                          │            │
+│        ▼                            ▼                          ▼            │
+│   ┌──────────┐                  ┌──────────┐              ┌──────────┐     │
+│   │ Uses     │ ─── interface ──▶│ Impl     │ ─── interface ──▶│ Mock   │     │
+│   │ services │                  │ classes  │                  │ Driver  │     │
+│   └──────────┘                  └──────────┘                  └──────────┘     │
+│                                                                              │
+│   Test focus:                    Test focus:                  Test focus:    │
+│   - End-to-end flow             - Business logic             - API contract │
+│   - User scenarios              - State transitions          - Error codes  │
+│   - Cross-service               - Event publishing           - Edge cases   │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2.4 Test Execution Flow
+
+```mermaid
+flowchart TD
+    A[make test / ctest] --> B[Build streaming_device_tests]
+    B --> C[Run test_runner]
+    C --> D[run_hal_tests]
+    C --> E[run_service_tests]
+    C --> F[run_cec_tests]
+    C --> G[run_codec_container_tests]
+    C --> H[run_bluetooth_tests]
+    D --> I{All pass?}
+    E --> I
+    F --> I
+    G --> I
+    H --> I
+    I -->|Yes| J[Exit 0]
+    I -->|No| K[Exit 1, report failures]
+```
+
+---
+
+## 3. Happy Path Test Cases
+
+### 3.1 Display HAL
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -20,7 +122,7 @@
 | H-DIS-003 | Present frame | getFramebuffer(), present() | Result::OK, callback invoked |
 | H-DIS-004 | Clear screen | clear() | Result::OK |
 
-### 2.2 Input HAL
+### 3.2 Input HAL
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -28,7 +130,7 @@
 | H-INP-002 | Key down callback | setInputCallback(), injectKey(OK) | Callback invoked with OK |
 | H-INP-003 | Poll mode | injectKey(BACK), poll() | poll returns event with BACK |
 
-### 2.3 App Launcher Service
+### 3.3 App Launcher Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -37,7 +139,7 @@
 | H-APP-003 | Stop app | stop(session_id) | Result::OK, isAppActive() false |
 | H-APP-004 | Launch unknown | launch(unknown_id) | status NOT_FOUND |
 
-### 2.4 UI Service
+### 3.4 UI Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -46,7 +148,7 @@
 | H-UI-003 | Select | select() | Returns OK |
 | H-UI-004 | Render | render() | Result::OK |
 
-### 2.5 HDMI-CEC Service
+### 3.5 HDMI-CEC Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -55,7 +157,7 @@
 | H-CEC-003 | Standby | standbyTv() | Result::OK |
 | H-CEC-004 | TV present | isTvPresent() | true when TV connected |
 
-### 2.6 Bluetooth Control Service
+### 3.6 Bluetooth Control Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -63,7 +165,7 @@
 | H-BT-002 | Send status | sendStatus(data) | Result::OK |
 | H-BT-003 | Command callback | setCommandCallback(), simulate write | Callback invoked |
 
-### 2.7 Config Service
+### 3.7 Config Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -71,7 +173,7 @@
 | H-CFG-002 | Set/get int | setInt(k,42), getInt(k) | 42 |
 | H-CFG-003 | Set/get bool | setBool(k,true), getBool(k) | true |
 
-### 2.8 Streaming Service
+### 3.8 Streaming Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -80,7 +182,7 @@
 | H-STR-003 | Resume | resume() | state PLAYING |
 | H-STR-004 | Stop | stopSession() | state IDLE |
 
-### 2.9 Codec Service
+### 3.9 Codec Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -89,7 +191,7 @@
 | H-CODEC-003 | Decode frame | decodeFrame(packet) | frame_ready, Result::OK |
 | H-CODEC-004 | Get capabilities | getCapabilities(HEVC) | max_width 3840 |
 
-### 2.10 Container Service
+### 3.10 Container Service
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -98,34 +200,34 @@
 | H-CON-003 | Get duration | getDurationUs() | > 0 |
 | H-CON-004 | Read packet | readPacket(pkt) | Result::OK or TIMEOUT |
 
-### 2.11 Stream Pipeline
+### 3.11 Stream Pipeline
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
 | H-PIPE-001 | Open stream | open("video.mp4") | Result::OK |
-| H-PIPE-002 | Play | play() | State PLAYING |
+| H-PIPE-002 | Play | play() (after open) | State PLAYING |
 | H-PIPE-003 | Seek | seek(5000000) | Result::OK |
 | H-PIPE-004 | Stop | stop() | State IDLE |
 
 ---
 
-## 3. Rainy Day Test Cases
+## 4. Rainy Day Test Cases
 
-### 3.1 Display
+### 4.1 Display
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
 | R-DIS-001 | Present when disconnected | (simulate disconnect), present() | Graceful handling or ERROR |
 | R-DIS-002 | Invalid resolution | setDisplayMode(0x0) | ERROR_INVALID_PARAM or safe default |
 
-### 3.2 Input
+### 4.2 Input
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
 | R-INP-001 | Poll empty | poll() with no events | ERROR_TIMEOUT |
 | R-INP-002 | Init twice | initialize() x2 | No crash, Result::OK |
 
-### 3.3 App Launcher
+### 4.3 App Launcher
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -133,7 +235,7 @@
 | R-APP-002 | Stop invalid session | stop("invalid_sess") | ERROR_NOT_FOUND |
 | R-APP-003 | Launch while app active | launch(A), launch(B) without stop | B replaces A or ERROR_BUSY |
 
-### 3.4 Wi-Fi
+### 4.4 Wi-Fi
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -141,14 +243,14 @@
 | R-WF-002 | Resolve unknown host | resolveHost("invalid.xyz") | ERROR or empty |
 | R-WF-003 | Disconnect when not connected | disconnect() | No crash, Result::OK |
 
-### 3.5 Storage
+### 4.5 Storage
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
 | R-STR-001 | Read missing key | read("nonexistent") | ERROR_NOT_FOUND |
 | R-STR-002 | Write to full storage | (simulate full), write() | ERROR_NO_MEMORY or ERROR_IO |
 
-### 3.6 Streaming
+### 4.6 Streaming
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
@@ -156,23 +258,37 @@
 | R-STRM-002 | Stop when idle | stopSession() when IDLE | Result::OK, no crash |
 | R-STRM-003 | Auth required app | startSession(auth_app) | AUTH_REQUIRED or handled |
 
-### 3.7 HDMI-CEC
+### 4.7 HDMI-CEC
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
 | R-CEC-001 | Send when TV absent | sendKeyToTv() when !isTvPresent() | ERROR_NOT_FOUND |
 | R-CEC-002 | Queue overflow | Send many rapid commands | Queue bounded, no crash |
 
-### 3.8 Bluetooth
+### 4.8 Bluetooth
 
 | ID | Scenario | Steps | Expected Result |
 |----|----------|-------|-----------------|
 | R-BT-001 | Send status when disconnected | sendStatus() when !isConnected() | ERROR or buffered |
 | R-BT-002 | Invalid GATT write | Malformed command byte | Ignored, no crash |
 
+### 4.9 Container Service
+
+| ID | Scenario | Steps | Expected Result |
+|----|----------|-------|-----------------|
+| R-CON-001 | Path without extension | open("noextension") | UNKNOWN format, ERROR_NOT_SUPPORTED |
+| R-CON-002 | Open invalid path | open("nonexistent.mp4") | Graceful error |
+
+### 4.10 Stream Pipeline
+
+| ID | Scenario | Steps | Expected Result |
+|----|----------|-------|-----------------|
+| R-PIPE-001 | Play without open | play() from IDLE | ERROR_BUSY |
+| R-PIPE-002 | Open with no video track | open(audio_only_file) | ERROR_NOT_FOUND |
+
 ---
 
-## 4. Integration Test Scenarios
+## 5. Integration Test Scenarios
 
 | ID | Scenario | Steps | Expected |
 |----|----------|-------|----------|
@@ -183,7 +299,16 @@
 
 ---
 
-## 5. Test Execution
+## 6. Test Execution
+
+### 6.1 With Make
+
+```bash
+make all
+make test
+```
+
+### 6.2 With CMake
 
 ```bash
 mkdir build && cd build
@@ -192,4 +317,24 @@ cmake --build .
 ctest --output-on-failure
 ```
 
-Individual test binary: `./streaming_device_tests`
+### 6.3 Run Individual Binary
+
+```bash
+./build/streaming_device_tests
+```
+
+### 6.4 Expected Output
+
+```
+=== HAL Tests ===
+Test: Display init ... OK
+Test: Input init and inject ... OK
+Test: Storage read/write ... OK
+
+=== Service Tests ===
+Test: App Launcher ... OK
+...
+
+========================================
+Passed: 44, Failed: 0
+```

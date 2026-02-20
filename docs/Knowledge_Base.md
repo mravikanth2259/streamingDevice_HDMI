@@ -15,6 +15,7 @@ A **portable streaming device** that:
 - Streams content from apps (Netflix, Prime, Hulu, Disney+, etc.) over **Wi-Fi**
 - Provides a **home page UI** with app icons for launching
 - Supports **Bluetooth** for audio (A2DP) and **mobile app control**
+- Decodes **H.265, AV1, VP9, MPEG-4, ProRes** in MP4/MOV/MKV containers
 
 ### 1.2 Key User Flows
 
@@ -26,9 +27,70 @@ A **portable streaming device** that:
 
 ---
 
-## 2. Architecture (For Test/Product Teams)
+## 2. Physical Setup: Connecting to TV via HDMI
 
-### 2.1 Three Main Layers
+### 2.1 Visual Connection Diagram
+
+```
+    TV                                    STREAMING DEVICE
+    ══                                    ════════════════
+
+┌─────────────────────────┐              ┌─────────────────────────┐
+│                         │              │                         │
+│   ┌─────────────────┐   │              │   ┌─────────────────┐  │
+│   │ HDMI 1  HDMI 2   │   │    HDMI      │   │   HDMI OUT       │  │
+│   │   ●       ●      │◀──┼──────CABLE───┼──▶│   ●              │  │
+│   │                 │   │    (Type A)   │   │                  │  │
+│   └─────────────────┘   │              │   └─────────────────┘  │
+│         TV INPUT        │              │   Power: USB / DC        │
+│                         │              │                         │
+└─────────────────────────┘              └─────────────────────────┘
+
+    ▲                                          ▲
+    │                                          │
+ Connect HDMI cable                     Connect power
+ to any HDMI input                      cable
+```
+
+### 2.2 Step-by-Step Setup Instructions
+
+| # | Step | Instructions |
+|---|------|--------------|
+| 1 | **Power off** | Turn off both the TV and the streaming device. |
+| 2 | **Find TV HDMI port** | Locate an HDMI input on the TV (side or back). Label: HDMI 1, HDMI 2, etc. |
+| 3 | **Find device HDMI port** | On the streaming device, find the **HDMI OUT** port. Do not use USB or other ports. |
+| 4 | **Connect HDMI cable** | Insert one end into the TV's HDMI input. Insert the other into the device's HDMI OUT. Push firmly until fully seated. |
+| 5 | **Connect power** | Plug the streaming device power supply (USB or DC) into a power outlet. |
+| 6 | **Power on TV** | Turn on the TV first. |
+| 7 | **Power on device** | Turn on the streaming device. The TV may auto-detect it. |
+| 8 | **Select HDMI input** | Use the TV remote to select the HDMI input you used (e.g., "HDMI 1"). |
+| 9 | **Enable CEC (recommended)** | In TV settings, enable HDMI-CEC (Anynet+, Bravia Sync, Simplink, etc.) so the remote can control the TV. |
+| 10 | **Connect Wi-Fi** | Use device settings to connect to your home Wi-Fi for streaming. |
+
+### 2.3 HDMI Cable Reference
+
+| Spec | Description |
+|------|-------------|
+| **Connector** | HDMI Type A (standard 19-pin) |
+| **Resolution** | HDMI 1.4: up to 1080p; HDMI 2.0+: 4K, HDR |
+| **Length** | Standard cables: up to ~5 m; longer runs: use active or fiber HDMI |
+| **Direction** | Use the port labeled HDMI **OUT** on the device; **IN** on the TV |
+
+### 2.4 Troubleshooting Connection
+
+| Issue | Possible Cause | Solution |
+|-------|----------------|---------|
+| No picture | Wrong HDMI input | Select correct HDMI input on TV |
+| No picture | Cable not seated | Unplug and firmly reconnect both ends |
+| No picture | HDCP mismatch | Try another HDMI port or cable |
+| No CEC control | CEC disabled | Enable CEC in TV settings |
+| Black screen | Resolution mismatch | Check device output resolution (1080p/4K) |
+
+---
+
+## 3. Architecture (For Test/Product Teams)
+
+### 3.1 Three Main Layers
 
 ```
 ┌──────────────────────────────────────┐
@@ -40,11 +102,11 @@ A **portable streaming device** that:
 └──────────────────────────────────────┘
 ```
 
-**Why this split?**  
-- Services can be tested without real hardware (using mocks)  
+**Why this split?**
+- Services can be tested without real hardware (using mocks)
 - Replacing hardware (e.g., different SoC) only requires new drivers behind the same HAL
 
-### 2.2 Block Diagram (Simplified)
+### 3.2 System Block Diagram
 
 ```
                     ┌─────────────────┐
@@ -63,22 +125,77 @@ A **portable streaming device** that:
      │    │                  │                      │
      ▼    ▼                  ▼                      ▼
 ┌─────────────┐        ┌────────────┐         ┌───────────┐
-│ Display HAL │        │ Streaming │         │ CEC HAL   │
-│ Input HAL   │        │ Service   │         │           │
-└─────────────┘        └─────┬─────┘         └───────────┘
+│ Display HAL │        │ Streaming  │         │ CEC HAL   │
+│ Input HAL   │        │ Service    │         │           │
+└─────────────┘        └─────┬──────┘         └───────────┘
      │                        │
      │                        ▼
      │                 ┌────────────┐
-     │                 │ Wi-Fi HAL  │
-     │                 │ Audio HAL  │
-     │                 └────────────┘
+     │                 │ Codec Svc  │
+     │                 │ Container  │
+     │                 │ Pipeline   │
+     │                 └─────┬──────┘
+     │                       │
+     │                 ┌─────┴─────┐
+     │                 │ Wi-Fi HAL │
+     │                 │ Audio HAL │
+     │                 └───────────┘
      ▼
 ┌────────────┐
 │ TV / HDMI  │
 └────────────┘
 ```
 
-### 2.3 Event Flow (Input → Action)
+### 3.3 Media Pipeline Flow
+
+```
+  Network/File
+       │
+       ▼
+┌──────────────┐     EncodedPacket      ┌──────────────┐
+│  Container   │ ───────────────────▶  │    Codec     │
+│  Service     │  (H.265, AV1, etc.)   │   Service    │
+│  (Demux)     │                       │   (Decode)   │
+└──────────────┘                       └──────┬───────┘
+       │                                      │ DecodedFrame
+       │ getTracks()                          ▼
+       │                              ┌──────────────┐
+       │                              │   Video      │
+       │                              │   Pipeline   │
+       │                              │ (Color, HDR) │
+       │                              └──────┬───────┘
+       │                                     │
+       │                                     ▼
+       │                              ┌──────────────┐
+       │                              │  Display HAL │
+       │                              │  → HDMI OUT  │
+       │                              └──────────────┘
+```
+
+### 3.4 Interface Dependency Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     WHO CALLS WHOM                                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  main.cpp                                                        │
+│     │                                                            │
+│     ├──▶ IUiService          ──▶ IDisplayHal, IInputHal          │
+│     ├──▶ IAppLauncherService ──▶ EventBus                         │
+│     ├──▶ IStreamingService   ──▶ IStreamPipeline                  │
+│     ├──▶ IHdmiCecService     ──▶ IHdmiCecHal                     │
+│     └──▶ IConfigService      ──▶ IStorageHal                     │
+│                                                                  │
+│  IStreamPipeline                                                 │
+│     ├──▶ ICodecService       ──▶ ICodecDecoder                    │
+│     ├──▶ IContainerService   ──▶ IContainerParser                 │
+│     └──▶ IVideoPipeline     ──▶ (optional) compositor            │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 3.5 Event Flow (Input → Action)
 
 ```
 Remote Key Press
@@ -96,13 +213,16 @@ Main loop routes to:
 
 ---
 
-## 3. Services (What Each Does)
+## 4. Services (What Each Does)
 
 | Service | Role | Test-Relevant Behavior |
 |---------|------|------------------------|
 | **UI Service** | Renders home page, handles focus, navigation | setAppIcons, navigate, select, getFocusedElementId |
 | **App Launcher** | Registers apps, launches by ID, session management | registerApp, launch, stop, getCurrentSessionId |
 | **Streaming Service** | Starts/stops stream sessions, quality, pause/resume | startSession, stopSession, getState |
+| **Codec Service** | Registers decoders, selects best for track | registerCodec, createDecoder, getCapabilities |
+| **Container Service** | Demuxes MP4/MOV/MKV, provides tracks | open, readPacket, getTracks, seek |
+| **Stream Pipeline** | Demux → decode → color → HDR → output | open, play, pause, seek, stop |
 | **HDMI-CEC Service** | Sends CEC commands to TV | sendKeyToTv, powerOnTv, standbyTv |
 | **Bluetooth Control** | Receives commands from mobile app | setCommandCallback, sendStatus |
 | **Config Service** | Persistent settings | getString/setString, getInt/setInt |
@@ -111,35 +231,43 @@ Main loop routes to:
 
 ---
 
-## 4. HAL Interfaces (For Test/Product)
+## 5. HAL Interfaces (For Test/Product)
 
-### 4.1 Display HAL
+### 5.1 Display HAL
 - **Purpose**: Output video to HDMI
 - **Key**: initialize, setDisplayMode, getFramebuffer, present
 
-### 4.2 Input HAL
+### 5.2 Input HAL
 - **Purpose**: Remote control, IR, touch
 - **Key**: setInputCallback, poll, injectKey (mock)
 
-### 4.3 Wi-Fi HAL
+### 5.3 Wi-Fi HAL
 - **Purpose**: Network for streaming
 - **Key**: connect, disconnect, getState, resolveHost
 
-### 4.4 Bluetooth HAL
+### 5.4 Bluetooth HAL
 - **Purpose**: A2DP audio, GATT control channel
 - **Key**: registerControlService, writeCharacteristic, setGattWriteCallback
 
-### 4.5 HDMI-CEC HAL
+### 5.5 HDMI-CEC HAL
 - **Purpose**: Send commands to TV
 - **Key**: sendPowerOn, sendStandby, sendRemoteKey
 
-### 4.6 Storage HAL
+### 5.6 Storage HAL
 - **Purpose**: Save settings, config
 - **Key**: read, write, exists, remove
 
+### 5.7 Codec HAL
+- **Purpose**: Decode H.265, AV1, VP9, MPEG-4, ProRes
+- **Key**: initialize, decodeFrame, flush, reset, getCapabilities
+
+### 5.8 Container HAL
+- **Purpose**: Demux MP4, MOV, MKV
+- **Key**: openContainer, readPacket, seek, getTracks
+
 ---
 
-## 5. Remote Key and CEC Mapping
+## 6. Remote Key and CEC Mapping
 
 | Remote Key | Device Action | CEC to TV |
 |------------|---------------|-----------|
@@ -155,7 +283,7 @@ Main loop routes to:
 
 ---
 
-## 6. Bluetooth Mobile App Protocol
+## 7. Bluetooth Mobile App Protocol
 
 - **Discovery**: BLE scan for "Streaming Device"
 - **Pairing**: Secure BLE pairing
@@ -164,16 +292,22 @@ Main loop routes to:
 
 ---
 
-## 7. Configuration
+## 8. Configuration
 
 - **App list**: `config/apps.json` defines available streaming apps
 - **Settings**: Stored via Config Service (backed by Storage HAL)
 
 ---
 
-## 8. Build and Run
+## 9. Build and Run
 
 ```bash
+# With Make
+make all
+make test
+make run
+
+# With CMake
 cmake -B build
 cmake --build build
 ./build/streaming_device
@@ -181,15 +315,17 @@ cmake --build build
 
 **Tests:**
 ```bash
-cd build && ctest
+make test
+# or: cd build && ctest
 ```
 
 ---
 
-## 9. Diagrams Reference
+## 10. Document Cross-Reference
 
-See **Implementation_Document.md** for:
-- Full architecture block diagram
-- Layered architecture (Mermaid)
-- App launch sequence diagram
-- HDMI-CEC mapping flowchart
+| Document | Contents |
+|----------|----------|
+| **Implementation_Document.md** | Full architecture, interface diagrams, HDMI setup, media pipeline |
+| **Test_Suite_Document.md** | Test cases, test architecture, execution |
+| **Codec_Container_API.md** | Codec and container API reference |
+| **Bluetooth_Control_Protocol.md** | Mobile app GATT protocol |
