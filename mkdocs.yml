@@ -93,6 +93,7 @@ nav:
     - HAL Interfaces: api/hal-interfaces.md
     - Services: api/services.md
     - Media Types: api/media-types.md
+    - API Contract Draft: api/API_Contract_Draft.md
   - Development:
     - Project Structure: development/project-structure.md
     - Adding a New App: development/adding-apps.md
@@ -107,6 +108,8 @@ nav:
     - TV-UI Design Spec: TV_UI_Design_Spec.md
     - UI Wireframes & User Journey: UI_Wireframes_and_User_Journey.md
     - Detailed Design: Detailed_Design_Document.md
+    - Design Review Checklist: Design_Review_Checklist.md
+    - Test Plan Template: Test_Plan_Template.md
     - Implementation: Implementation_Document.md
     - Knowledge Base: Knowledge_Base.md
     - PRD: Product_Requirements_Document.md

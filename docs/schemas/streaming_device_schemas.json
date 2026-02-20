@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://streamingdevice.github.io/schemas/streaming_device_schemas.json",
+  "title": "Streaming Device Data Models",
+  "description": "JSON Schema for core data models: AppMetadata, TrackMetadata, StreamingSession, HdrMetadata, LayoutConfig",
+  "definitions": {
+    "AppMetadata": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$",
+          "description": "App identifier (e.g., netflix)"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Display name"
+        },
+        "icon_path": {
+          "type": "string",
+          "description": "Icon asset path or URI"
+        },
+        "package_uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "App bundle or web URL"
+        },
+        "auth_endpoint": {
+          "type": "string",
+          "format": "uri",
+          "description": "OAuth/auth URL"
+        },
+        "requires_auth": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "StreamingSession": {
+      "type": "object",
+      "required": ["app_id", "session_id", "state"],
+      "properties": {
+        "app_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "enum": ["IDLE", "PLAYING", "PAUSED", "SEEKING", "ERROR"]
+        }
+      }
+    },
+    "VideoTrackInfo": {
+      "type": "object",
+      "properties": {
+        "codec": {
+          "type": "string",
+          "enum": ["UNKNOWN", "H265_HEVC", "AV1", "VP9", "MPEG4_PART2", "PRORES"]
+        },
+        "width": { "type": "integer", "minimum": 0 },
+        "height": { "type": "integer", "minimum": 0 },
+        "frame_rate_num": { "type": "integer", "minimum": 0 },
+        "frame_rate_den": { "type": "integer", "minimum": 1 },
+        "bit_depth": { "type": "integer", "minimum": 8, "maximum": 12 },
+        "hdr": { "$ref": "#/definitions/HdrMetadata" }
+      }
+    },
+    "AudioTrackInfo": {
+      "type": "object",
+      "properties": {
+        "codec": {
+          "type": "string",
+          "enum": ["UNKNOWN", "AAC", "AC3", "EAC3", "MP3", "PCM"]
+        },
+        "sample_rate": { "type": "integer", "minimum": 0 },
+        "channels": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "SubtitleTrackInfo": {
+      "type": "object",
+      "properties": {
+        "language": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" },
+        "is_forced": { "type": "boolean", "default": false }
+      }
+    },
+    "TrackMetadata": {
+      "type": "object",
+      "required": ["type", "track_id"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["VIDEO", "AUDIO", "SUBTITLE"]
+        },
+        "track_id": { "type": "integer", "minimum": 1 },
+        "language": { "type": "string" },
+        "duration_us": { "type": "integer", "minimum": 0 },
+        "bitrate": { "type": "integer", "minimum": 0 },
+        "video": { "$ref": "#/definitions/VideoTrackInfo" },
+        "audio": { "$ref": "#/definitions/AudioTrackInfo" },
+        "subtitle": { "$ref": "#/definitions/SubtitleTrackInfo" }
+      }
+    },
+    "MasteringDisplayInfo": {
+      "type": "object",
+      "properties": {
+        "display_primaries_x": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+        "display_primaries_y": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+        "white_point_x": { "type": "number" },
+        "white_point_y": { "type": "number" },
+        "max_display_mastering_luminance": { "type": "number" },
+        "min_display_mastering_luminance": { "type": "number" }
+      }
+    },
+    "ContentLightLevel": {
+      "type": "object",
+      "properties": {
+        "max_content_light_level": { "type": "integer", "minimum": 0 },
+        "max_frame_average_light_level": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "HdrMetadata": {
+      "type": "object",
+      "properties": {
+        "color_primaries": {
+          "type": "string",
+          "enum": ["UNSPECIFIED", "BT709", "BT2020", "SMPTE_240M", "P3_D65"]
+        },
+        "transfer": {
+          "type": "string",
+          "enum": ["UNSPECIFIED", "BT709", "SMPTE_2084", "ARIB_STD_B67"]
+        },
+        "matrix": {
+          "type": "string",
+          "enum": ["UNSPECIFIED", "BT709", "BT2020_NCL"]
+        },
+        "mastering_display": { "$ref": "#/definitions/MasteringDisplayInfo" },
+        "content_light": { "$ref": "#/definitions/ContentLightLevel" },
+        "is_hdr10": { "type": "boolean", "default": false },
+        "is_hlg": { "type": "boolean", "default": false }
+      }
+    },
+    "LayoutIcon": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9_-]+$" },
+        "label": { "type": "string" },
+        "asset": { "type": "string" },
+        "isNetwork": { "type": "boolean", "default": false },
+        "action": { "type": "string" }
+      }
+    },
+    "NetworkIcon": {
+      "type": "object",
+      "required": ["id", "label", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "asset": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["connected", "disconnected"]
+        }
+      }
+    },
+    "LayoutConfig": {
+      "type": "object",
+      "required": ["version", "icons"],
+      "properties": {
+        "version": { "type": "integer", "minimum": 1 },
+        "initialFocusIndex": { "type": "integer", "minimum": 0 },
+        "icons": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/LayoutIcon" }
+        },
+        "networkIcons": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/NetworkIcon" }
+        },
+        "settingsPanel": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}
